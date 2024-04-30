@@ -1,4 +1,4 @@
-﻿@import url("../sass/fontawesome-all.min.css");
+﻿@import url("fontawesome-all.min.css");
 @import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600|Arvo:700");
 /*
 	Strongly Typed by HTML5 UP
@@ -1730,7 +1730,7 @@ button.alt:active,
   width: 35px;
   height: 141px;
   margin-top: -70px;
-  background: url("../sass/images/bracket.svg");
+  background: url("images/bracket.svg");
   opacity: 0.15;
 }
 #banner > .container:before {
