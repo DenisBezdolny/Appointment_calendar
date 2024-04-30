@@ -1,7 +1,7 @@
 ﻿using Appointment_calendar.Domain.Entities.Abstract;
 using System.ComponentModel.DataAnnotations;
 
-namespace Anppointment_calendar.Domain.Entities.Concreate
+namespace Appointment_calendar.Domain.Entities.Concreate
 {
     public class TextField : PageEntityBase
 	{
