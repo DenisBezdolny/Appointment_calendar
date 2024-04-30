@@ -12,6 +12,7 @@ namespace Appointment_calendar.Domain.DatabaseAccess
         public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
 
         public DbSet<TextField> TextFields { get; set; }
+		public DbSet<ServiceItem> ServiceItems { get; set; }
 		public DbSet<User> Users { get; set; }
 
 
@@ -88,13 +89,20 @@ namespace Appointment_calendar.Domain.DatabaseAccess
                 CodeWord = "PageAboutUs",
                 Title = "О нас"
             });
-            modelBuilder.Entity<TextField>().HasData(new TextField
+			modelBuilder.Entity<TextField>().HasData(new TextField
+			{
+				Id = new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"),
+				CodeWord = "PageServices",
+				Title = "Предоставляемы услуги"
+			});
+			modelBuilder.Entity<TextField>().HasData(new TextField
             {
                 Id = new Guid("8b74b23c-ec9b-4375-9c5e-acc3431c4f6b"),
                 CodeWord = "PageClientDataField",
                 Title = "Заявка на оказание услуги"
             });
 
-        }
+
+		}
     }
 }
