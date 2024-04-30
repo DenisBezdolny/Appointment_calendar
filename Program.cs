@@ -35,6 +35,18 @@ builder.Services.AddIdentity<User, IdentityRole>(opts =>
 
 }).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
+builder.Services.ConfigureApplicationCookie(options =>
+{
+	options.Cookie.Name = "PsicoterNat";
+	options.Cookie.Expiration = TimeSpan.FromDays(1000);
+	options.Cookie.MaxAge = TimeSpan.FromDays(1000);
+	options.Cookie.SecurePolicy = CookieSecurePolicy.Always; //only HTTPS
+	options.Cookie.SameSite = SameSiteMode.Strict; //anti-CSRF, need authentic source
+	options.LoginPath = "/account/login";
+	options.AccessDeniedPath = "/account/accessdined";
+	options.SlidingExpiration = true; //extencion by connection
+});
+
 
 var app = builder.Build();
 
@@ -50,6 +62,10 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 
 app.UseRouting();
+
+app.UseCookiePolicy();
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.UseAuthorization();
 
