@@ -1,3 +1,7 @@
+using Appointment_calendar.Domain.DatabaseAccess;
+using Appointment_calendar.Domain.Entities.Concreate;
+using Appointment_calendar.Domain.ServicesRepository.Abstract;
+using Appointment_calendar.Domain.ServicesRepository.Entity_Framework;
 using Appointment_calendar.Models;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -8,6 +12,12 @@ builder.Services.AddControllersWithViews();
 
 //подключаем конфиг из appsetting.json
 builder.Configuration.Bind("Project", new BasicInformation());
+
+//подключаем сервисы
+builder.Services.AddTransient<ITextFieldsService, EFTextFieldsService>();
+builder.Services.AddTransient<IServiceItemService, EFServiceItemsService>();
+
+builder.Services.AddTransient<ServiceManager>();
 
 
 var app = builder.Build();
