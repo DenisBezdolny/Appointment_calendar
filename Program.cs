@@ -3,6 +3,8 @@ using Appointment_calendar.Domain.Entities.Concreate;
 using Appointment_calendar.Domain.ServicesRepository.Abstract;
 using Appointment_calendar.Domain.ServicesRepository.Entity_Framework;
 using Appointment_calendar.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,6 +20,20 @@ builder.Services.AddTransient<ITextFieldsService, EFTextFieldsService>();
 builder.Services.AddTransient<IServiceItemService, EFServiceItemsService>();
 
 builder.Services.AddTransient<ServiceManager>();
+
+//registrate db-context
+builder.Services.AddDbContext<AppDbContext>(x => x.UseSqlServer(BasicInformation.ConnectionString));
+
+builder.Services.AddIdentity<User, IdentityRole>(opts =>
+{
+	opts.User.RequireUniqueEmail = true;
+	opts.Password.RequiredLength = 6;
+	opts.Password.RequireNonAlphanumeric = false;
+	opts.Password.RequireLowercase = false;
+	opts.Password.RequireUppercase = false;
+	opts.Password.RequireDigit = false;
+
+}).AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
 
 var app = builder.Build();
