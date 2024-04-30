@@ -1,7 +1,14 @@
+using Appointment_calendar.Models;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+
+//подключаем конфиг из appsetting.json
+builder.Configuration.Bind("Project", new BasicInformation());
+
 
 var app = builder.Build();
 
