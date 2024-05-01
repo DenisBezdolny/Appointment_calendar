@@ -14,6 +14,7 @@ namespace Appointment_calendar.Domain.DatabaseAccess
         public DbSet<TextField> TextFields { get; set; }
 		public DbSet<ServiceItem> ServiceItems { get; set; }
 		public DbSet<User> Users { get; set; }
+		public DbSet<ClientDataField> ClientDataFields { get; set; }
 
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
