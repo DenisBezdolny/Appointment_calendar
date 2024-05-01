@@ -18,6 +18,7 @@ builder.Configuration.Bind("Project", new BasicInformation());
 //подключаем сервисы
 builder.Services.AddTransient<ITextFieldsService, EFTextFieldsService>();
 builder.Services.AddTransient<IServiceItemService, EFServiceItemsService>();
+builder.Services.AddTransient<IClientDataFieldsService, EFClientDataFieldsService>();
 
 builder.Services.AddTransient<ServiceManager>();
 
@@ -72,5 +73,11 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+	name: "admin",
+	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+	name: "therapist",
+	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
