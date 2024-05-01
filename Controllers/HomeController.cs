@@ -1,31 +1,31 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Appointment_calendar.Models;
+using Appointment_calendar.Domain.DatabaseAccess;
 
 namespace Appointment_calendar.Controllers;
 
 public class HomeController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
+    private readonly ServiceManager serviceManager;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ServiceManager dataManager)
     {
-        _logger = logger;
+        this.serviceManager = dataManager;
     }
 
     public IActionResult Index()
     {
-        return View();
+        return View(serviceManager.TextFields.GetTextFieldByCodeWord("PageIndex"));
     }
 
-    public IActionResult Privacy()
+    public IActionResult Contacts()
     {
-        return View();
+        return View(serviceManager.TextFields.GetTextFieldByCodeWord("PageContacts"));
     }
 
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
+    public IActionResult AboutUs()
     {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return View(serviceManager.TextFields.GetTextFieldByCodeWord("PageAboutUs"));
     }
 }
