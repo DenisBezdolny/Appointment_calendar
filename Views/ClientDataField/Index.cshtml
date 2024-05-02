@@ -1,0 +1,45 @@
+﻿@model ClientDataField
+
+
+<div>
+    
+    <div>
+        <form asp-controller="ClientDataField" asp-action="Send" method="post" class="form-horizontal">
+            <div asp-validation-summary="All"></div>
+            <div class="col-md5">
+                <label asp-for="Name"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name"></span>
+            </div>
+            <div class="col-md5">
+                <label asp-for="LustName"></label>
+                <input asp-for="LustName" class="form-control" />
+                <span asp-validation-for="LustName"></span>
+            </div>
+            <div class="col-md5">
+                <label asp-for="Phone"></label>
+                <input asp-for="Phone" class="form-control" />
+                <span asp-validation-for="Phone"></span>
+            </div>
+            <div class="col-md5">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email"></span>
+            </div>
+            <div class="col-md5">
+                <label asp-for="TelgramContact"></label>
+                <input asp-for="TelgramContact" class="form-control" />
+                <span asp-validation-for="TelgramContact"></span>
+            </div>
+            <div class="col-md5">
+
+                <label asp-for="Service"></label>
+                <input asp-for="Service" class="form-control" />
+                <span asp-validation-for="Service"></span>
+            </div>
+
+            <p></p>
+            <input type="submit" value="Отправить" />
+        </form>
+    </div>
+</div>
