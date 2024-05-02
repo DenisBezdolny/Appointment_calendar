@@ -1,0 +1,36 @@
+﻿@model IQueryable<ClientDataField>
+@{
+    string strTitle = "Личный кабинет";
+    ViewBag.Title = strTitle;
+}
+
+<div>
+    <h2>@strTitle</h2>
+    <div>
+        <h3>Заявки</h3>
+        <div>
+            @if (Model.Any())
+            {
+                <ul class="big-image-list">
+                    @foreach (ClientDataField entity in Model)
+                    {
+                        <li>
+                            <h4>@entity.Name, @entity.LustName</h4>
+                            <p>@entity.Service</p>
+                            <p>@entity.Phone</p>
+                            <p>@entity.Email, @entity.TelgramContact </p>
+                            <form style="display: inline-block;" id="form-@entity.Id" asp-area="Therapist" asp-controller="ClientDataApplication" asp-action="Delete" method="post">
+                                <input type="hidden" name="id" value="@entity.Id">
+                                <a href="#" onclick="document.getElementById('form-@entity.Id').submit();">Удалить</a>
+                            </form>
+                        </li>
+                    }
+
+                </ul>
+            }
+        </div>
+
+    </div>
+
+</div>
+
