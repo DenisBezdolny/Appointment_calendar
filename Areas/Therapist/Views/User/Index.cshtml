@@ -1,0 +1,39 @@
+﻿@model IQueryable<User>
+
+<div>
+    <a asp-area="Therapist" asp-action="Create" asp-controller="User">Создать пациента</a>
+</div>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <td>UserName</td>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Электронная почта</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (User entity in Model)
+        {
+            <tr>
+                <td>@entity.UserName</td>
+                <td>@entity.FirstName</td>
+                <td>@entity.LastName</td>
+                <td>@entity.Email</td>
+                <td>
+
+                    <form style="display: inline-block;" id="form-@entity.Id" asp-area="Therapist" asp-controller="User" asp-action="Delete" method="post">
+                        <input type="hidden" name="id" value="@entity.Id">
+                        <a href="#" onclick="document.getElementById('form-@entity.Id').submit();">удалить</a>
+                    </form>
+                    
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>

@@ -1,0 +1,51 @@
+﻿@model User
+
+@{
+    string strTitle = "Добавление пациента";
+    ViewBag.Title = strTitle;
+}
+
+
+<form asp-area="Therapist" asp-controller="User" asp-action="Create" method="post" enctype="multipart/form-data">
+
+
+    <div asp-validation-summary="All"></div>
+    <div class="div-box">
+        <label asp-for="FirstName"></label>
+        <input asp-for="FirstName" />
+        <span asp-validation-for="FirstName"></span>
+    </div>
+    <div asp-validation-summary="All"></div>
+    <div class="div-box">
+        <label asp-for="LastName"></label>
+        <input asp-for="LastName" />
+        <span asp-validation-for="LastName"></span>
+    </div>
+    <div asp-validation-summary="All"></div>
+    <div class="div-box">
+        <label asp-for="PhoneNumber"></label>
+        <input asp-for="PhoneNumber" />
+        <span asp-validation-for="PhoneNumber"></span>
+    </div>
+    <div asp-validation-summary="All"></div>
+    <div class="div-box">
+        <label asp-for="DateOfBirth"></label>
+        <input asp-for="DateOfBirth" />
+        <span asp-validation-for="DateOfBirth"></span>
+    </div>
+    <div asp-validation-summary="All"></div>
+    <div class="div-box">
+        <label asp-for="Place"></label>
+        <input asp-for="Place" />
+        <span asp-validation-for="Place"></span>
+    </div>
+    <div asp-validation-summary="All"></div>
+    <div class="div-box">
+        <label asp-for="Description"></label>
+        <input asp-for="Description" />
+        <span asp-validation-for="Description"></span>
+    </div>
+
+
+    <input type="submit" value="Сохранить" />
+</form>
