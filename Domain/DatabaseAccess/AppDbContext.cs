@@ -13,9 +13,8 @@ namespace Appointment_calendar.Domain.DatabaseAccess
 
         public DbSet<TextField> TextFields { get; set; }
 		public DbSet<ServiceItem> ServiceItems { get; set; }
-		public DbSet<User> Users { get; set; }
+		public override DbSet<User> Users { get; set; }
 		public DbSet<ClientDataField> ClientDataFields { get; set; }
-
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -27,8 +26,20 @@ namespace Appointment_calendar.Domain.DatabaseAccess
                 Name = "admin",
                 NormalizedName = "ADMIN"
             });
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = "90b824e4-fe7b-431f-bea7-d6c96495a09d",
+                Name = "therapist",
+                NormalizedName = "THERAPIST"
+            });
+            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
+            {
+                Id = "ee560ba8-3277-4414-9a66-300fb2ffae38",
+                Name = "patient",
+                NormalizedName = "PATIENT"
+            });
 
-            modelBuilder.Entity<IdentityUser>().HasData(new IdentityUser
+            modelBuilder.Entity<User>().HasData(new User
             {
                 Id = "3b62472e-4f66-49fa-a20f-e7685b9565d8",
                 UserName = "admin",
@@ -36,26 +47,19 @@ namespace Appointment_calendar.Domain.DatabaseAccess
                 Email = "my@email.com",
                 NormalizedEmail = "MY@EMAIL.COM",
                 EmailConfirmed = true,
-                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "superpassword"),
+                PasswordHash = new PasswordHasher<User>().HashPassword(null, "superpassword"),
                 SecurityStamp = string.Empty
             });
 
-            modelBuilder.Entity<IdentityRole>().HasData(new IdentityRole
-            {
-                Id = "90b824e4-fe7b-431f-bea7-d6c96495a09d",
-                Name = "therapist",
-                NormalizedName = "THERAPIST"
-			});
-
-            modelBuilder.Entity<IdentityUser>().HasData(new IdentityUser
+            modelBuilder.Entity<User>().HasData(new User
             {
                 Id = "2dec81ab-0190-496b-954f-681b495b7d70",
                 UserName = "therapist",
                 NormalizedUserName = "THERAPIST",
-                Email = "my@email.com",
-                NormalizedEmail = "MY@EMAIL.COM",
+                Email = "Cheidfoureyes@yandex.ru",
+                NormalizedEmail = "CHEIDFOUREYES@YANDEX.RU",
                 EmailConfirmed = true,
-                PasswordHash = new PasswordHasher<IdentityUser>().HashPassword(null, "puperpassword"),
+                PasswordHash = new PasswordHasher<User>().HashPassword(null, "puperpassword"),
                 SecurityStamp = string.Empty
             });
 
