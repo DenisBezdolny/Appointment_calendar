@@ -3,13 +3,25 @@ using Appointment_calendar.Domain.Entities.Concreate;
 using Appointment_calendar.Domain.ServicesRepository.Abstract;
 using Appointment_calendar.Domain.ServicesRepository.Entity_Framework;
 using Appointment_calendar.Models;
+using Appointment_calendar.Services;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddAuthorization(x =>
+{
+	x.AddPolicy("AdminArea", policy => { policy.RequireRole("admin"); });
+	x.AddPolicy("TherapistArea", policy => { policy.RequireRole("therapist"); });
+});
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews(x =>
+{
+	x.Conventions.Add(new AreaAuthorization("Admin", "AdminArea"));
+	x.Conventions.Add(new AreaAuthorization("Therapist", "TherapistArea"));
+});
+
 
 
 //подключаем конфиг из appsetting.json
@@ -19,6 +31,8 @@ builder.Configuration.Bind("Project", new BasicInformation());
 builder.Services.AddTransient<ITextFieldsService, EFTextFieldsService>();
 builder.Services.AddTransient<IServiceItemService, EFServiceItemsService>();
 builder.Services.AddTransient<IClientDataFieldsService, EFClientDataFieldsService>();
+builder.Services.AddTransient<IUserService, EFUserService>();
+builder.Services.AddTransient<IEventService, EFEventService>();
 
 builder.Services.AddTransient<ServiceManager>();
 
@@ -39,7 +53,7 @@ builder.Services.AddIdentity<User, IdentityRole>(opts =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
 	options.Cookie.Name = "PsicoterNat";
-	options.Cookie.Expiration = TimeSpan.FromDays(1000);
+	options.ExpireTimeSpan = new TimeSpan(10, 00, 00);
 	options.Cookie.MaxAge = TimeSpan.FromDays(1000);
 	options.Cookie.SecurePolicy = CookieSecurePolicy.Always; //only HTTPS
 	options.Cookie.SameSite = SameSiteMode.Strict; //anti-CSRF, need authentic source
@@ -70,14 +84,16 @@ app.UseAuthorization();
 
 app.UseAuthorization();
 
+
+app.MapControllerRoute(
+    name: "admin",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+app.MapControllerRoute(
+    name: "therapist",
+    pattern: "therapist/{area:exists}/{controller=Home}/{action=Index}/{id?}");
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute(
-	name: "admin",
-	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-app.MapControllerRoute(
-	name: "therapist",
-	pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
