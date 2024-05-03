@@ -400,3 +400,4 @@ FodyWeavers.xsd
 /appsettings.json
 /Properties/launchSettings.json
 /Credentials.json
+/token.json
