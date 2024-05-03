@@ -15,8 +15,10 @@ namespace Appointment_calendar.Domain.DatabaseAccess
 		public DbSet<ServiceItem> ServiceItems { get; set; }
 		public override DbSet<User> Users { get; set; }
 		public DbSet<ClientDataField> ClientDataFields { get; set; }
+        public DbSet<AppEvent> Events { get; set; }
 
-		protected override void OnModelCreating(ModelBuilder modelBuilder)
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
