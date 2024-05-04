@@ -19,6 +19,7 @@
                             <p>@entity.Service</p>
                             <p>@entity.Phone</p>
                             <p>@entity.Email, @entity.TelgramContact </p>
+                            <p>@entity.DescriptionOfProblem</p>
                             <form style="display: inline-block;" id="form-@entity.Id" asp-area="Therapist" asp-controller="ClientDataApplication" asp-action="Delete" method="post">
                                 <input type="hidden" name="id" value="@entity.Id">
                                 <a href="#" onclick="document.getElementById('form-@entity.Id').submit();">Удалить</a>

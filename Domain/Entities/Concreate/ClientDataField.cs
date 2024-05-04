@@ -5,14 +5,16 @@ namespace Appointment_calendar.Domain.Entities.Concreate
 {
 	public class ClientDataField : PageEntityBase
 	{
-
-		[Display(Name = "Ваше имя")]
+		[Required]
+		[Display(Name = "Ваше имя*")]
 		public string Name { get; set; }
 
-		[Display(Name = "Ваша фамилия")]
+        [Required]
+        [Display(Name = "Ваша фамилия*")]
 		public string LustName { get; set; }
 
-		[Display(Name = "Ваш номер телефона")]
+        [Required]
+        [Display(Name = "Ваш номер телефона*")]
 		[DataType(DataType.PhoneNumber)]
 		public string Phone { get; set; }
 
@@ -26,5 +28,9 @@ namespace Appointment_calendar.Domain.Entities.Concreate
 		[Display(Name = "Услуга")]
 		public string Service { get; set; }
 
-	}
+        [Required]
+        [Display(Name = "Описание проблемы*")]
+        public string DescriptionOfProblem { get; set; }
+
+    }
 }
