@@ -34,7 +34,12 @@ namespace Appointment_calendar.Migrations
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Discriminator = table.Column<string>(type: "nvarchar(8)", maxLength: 8, nullable: false),
                     DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    Place = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TelgramContact = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MeetLink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -66,6 +71,7 @@ namespace Appointment_calendar.Migrations
                     Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TelgramContact = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Service = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DescriptionOfProblem = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Subtitle = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Text = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -138,6 +144,27 @@ namespace Appointment_calendar.Migrations
                         principalTable: "AspNetRoles",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AppEvents",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    End = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AppEvents", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AppEvents_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -231,16 +258,17 @@ namespace Appointment_calendar.Migrations
                 values: new object[,]
                 {
                     { "44546e06-8719-4ad8-b88a-f271ae9d6eab", null, "admin", "ADMIN" },
-                    { "90b824e4-fe7b-431f-bea7-d6c96495a09d", null, "therapist", "THERAPIST" }
+                    { "90b824e4-fe7b-431f-bea7-d6c96495a09d", null, "therapist", "THERAPIST" },
+                    { "ee560ba8-3277-4414-9a66-300fb2ffae38", null, "patient", "PATIENT" }
                 });
 
             migrationBuilder.InsertData(
                 table: "AspNetUsers",
-                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "DateOfBirth", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Discriminator", "Email", "EmailConfirmed", "FirstName", "LastName", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "2dec81ab-0190-496b-954f-681b495b7d70", 0, "79600cca-8ae3-4d3b-a9f4-4fb72808cfff", null, "my@email.com", true, null, null, false, null, "MY@EMAIL.COM", "THERAPIST", "AQAAAAIAAYagAAAAECo3CvqlYLR1z9NaZGpisCEYZ3vN9P1LTlybTuveW5GSBlvYu5EYxKyGwPqAusndmA==", null, false, "", false, "therapist" },
-                    { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "092674c8-d227-4062-9121-b6ab79cc39ed", null, "my@email.com", true, null, null, false, null, "MY@EMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAEF+Og3RJMdgmridHeAJRxaNlYc8qD0FczCIRJ7hJwGJadEegk/68IFYA9Gg8eNVJhg==", null, false, "", false, "admin" }
+                    { "2dec81ab-0190-496b-954f-681b495b7d70", 0, "33c95698-8c9f-4c9a-bacb-a84da24deab7", "User", "Cheidfoureyes@yandex.ru", true, null, null, false, null, "CHEIDFOUREYES@YANDEX.RU", "THERAPIST", "AQAAAAIAAYagAAAAEJgxbAKv0vKFEIVqNJFVe7/CHWeB/NeqotqflNsKv6R2jWYW4jUPVS2q7j8l0YIKYA==", null, false, "", false, "therapist" },
+                    { "3b62472e-4f66-49fa-a20f-e7685b9565d8", 0, "8de60efc-0803-45eb-aaf7-2525033f1881", "User", "my@email.com", true, null, null, false, null, "MY@EMAIL.COM", "ADMIN", "AQAAAAIAAYagAAAAENDpsrr7516PrrFrS+Zl0neR1JySLRcp0bSDKqUCXotQv2tM4I91H0UWb/2/Mu2N2g==", null, false, "", false, "admin" }
                 });
 
             migrationBuilder.InsertData(
@@ -248,11 +276,11 @@ namespace Appointment_calendar.Migrations
                 columns: new[] { "Id", "CodeWord", "DateAdded", "MetaDescription", "MetaKeywords", "MetaTitle", "Subtitle", "Text", "Title", "TitleImagePath" },
                 values: new object[,]
                 {
-                    { new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"), "PageContacts", new DateTime(2024, 5, 1, 11, 1, 42, 772, DateTimeKind.Utc).AddTicks(1848), null, null, null, null, "Содержание заполняется администратором", "Контакты", null },
-                    { new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"), "PageIndex", new DateTime(2024, 5, 1, 11, 1, 42, 772, DateTimeKind.Utc).AddTicks(1653), null, null, null, null, "Содержание заполняется администратором", "Главная", null },
-                    { new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"), "PageServices", new DateTime(2024, 5, 1, 11, 1, 42, 772, DateTimeKind.Utc).AddTicks(1891), null, null, null, null, "Содержание заполняется администратором", "Предоставляемы услуги", null },
-                    { new Guid("86cf2b31-c56e-49f7-98ba-6dc0c4d21d18"), "PageAboutUs", new DateTime(2024, 5, 1, 11, 1, 42, 772, DateTimeKind.Utc).AddTicks(1867), null, null, null, null, "Содержание заполняется администратором", "О нас", null },
-                    { new Guid("8b74b23c-ec9b-4375-9c5e-acc3431c4f6b"), "PageClientDataField", new DateTime(2024, 5, 1, 11, 1, 42, 772, DateTimeKind.Utc).AddTicks(1920), null, null, null, null, "Содержание заполняется администратором", "Заявка на оказание услуги", null }
+                    { new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"), "PageContacts", new DateTime(2024, 5, 5, 11, 9, 55, 832, DateTimeKind.Utc).AddTicks(4564), null, null, null, null, "Содержание заполняется администратором", "Контакты", null },
+                    { new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"), "PageIndex", new DateTime(2024, 5, 5, 11, 9, 55, 832, DateTimeKind.Utc).AddTicks(4535), null, null, null, null, "Содержание заполняется администратором", "Главная", null },
+                    { new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"), "PageServices", new DateTime(2024, 5, 5, 11, 9, 55, 832, DateTimeKind.Utc).AddTicks(4587), null, null, null, null, "Содержание заполняется администратором", "Предоставляемы услуги", null },
+                    { new Guid("86cf2b31-c56e-49f7-98ba-6dc0c4d21d18"), "PageAboutUs", new DateTime(2024, 5, 5, 11, 9, 55, 832, DateTimeKind.Utc).AddTicks(4576), null, null, null, null, "Содержание заполняется администратором", "О нас", null },
+                    { new Guid("8b74b23c-ec9b-4375-9c5e-acc3431c4f6b"), "PageClientDataField", new DateTime(2024, 5, 5, 11, 9, 55, 832, DateTimeKind.Utc).AddTicks(4598), null, null, null, null, "Содержание заполняется администратором", "Заявка на оказание услуги", null }
                 });
 
             migrationBuilder.InsertData(
@@ -263,6 +291,11 @@ namespace Appointment_calendar.Migrations
                     { "90b824e4-fe7b-431f-bea7-d6c96495a09d", "2dec81ab-0190-496b-954f-681b495b7d70" },
                     { "44546e06-8719-4ad8-b88a-f271ae9d6eab", "3b62472e-4f66-49fa-a20f-e7685b9565d8" }
                 });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AppEvents_UserId",
+                table: "AppEvents",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -307,6 +340,9 @@ namespace Appointment_calendar.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "AppEvents");
+
             migrationBuilder.DropTable(
                 name: "AspNetRoleClaims");
 

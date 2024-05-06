@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Appointment_calendar.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240501185543_2_migration")]
+    [Migration("20240505174719_2_migration")]
     partial class _2_migration
     {
         /// <inheritdoc />
@@ -25,6 +25,34 @@ namespace Appointment_calendar.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("Appointment_calendar.Domain.Entities.Concreate.AppEvent", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("PatientId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PatientId");
+
+                    b.ToTable("AppEvents");
+                });
+
             modelBuilder.Entity("Appointment_calendar.Domain.Entities.Concreate.ClientDataField", b =>
                 {
                     b.Property<Guid>("Id")
@@ -33,6 +61,10 @@ namespace Appointment_calendar.Migrations
 
                     b.Property<DateTime>("DateAdded")
                         .HasColumnType("datetime2");
+
+                    b.Property<string>("DescriptionOfProblem")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Email")
                         .IsRequired()
@@ -167,7 +199,7 @@ namespace Appointment_calendar.Migrations
                         {
                             Id = new Guid("63dc8fa6-07ae-4391-8916-e057f71239ce"),
                             CodeWord = "PageIndex",
-                            DateAdded = new DateTime(2024, 5, 1, 18, 55, 42, 594, DateTimeKind.Utc).AddTicks(5191),
+                            DateAdded = new DateTime(2024, 5, 5, 17, 47, 16, 356, DateTimeKind.Utc).AddTicks(21),
                             Text = "Содержание заполняется администратором",
                             Title = "Главная"
                         },
@@ -175,7 +207,7 @@ namespace Appointment_calendar.Migrations
                         {
                             Id = new Guid("4aa76a4c-c59d-409a-84c1-06e6487a137a"),
                             CodeWord = "PageContacts",
-                            DateAdded = new DateTime(2024, 5, 1, 18, 55, 42, 594, DateTimeKind.Utc).AddTicks(5220),
+                            DateAdded = new DateTime(2024, 5, 5, 17, 47, 16, 356, DateTimeKind.Utc).AddTicks(61),
                             Text = "Содержание заполняется администратором",
                             Title = "Контакты"
                         },
@@ -183,7 +215,7 @@ namespace Appointment_calendar.Migrations
                         {
                             Id = new Guid("86cf2b31-c56e-49f7-98ba-6dc0c4d21d18"),
                             CodeWord = "PageAboutUs",
-                            DateAdded = new DateTime(2024, 5, 1, 18, 55, 42, 594, DateTimeKind.Utc).AddTicks(5233),
+                            DateAdded = new DateTime(2024, 5, 5, 17, 47, 16, 356, DateTimeKind.Utc).AddTicks(89),
                             Text = "Содержание заполняется администратором",
                             Title = "О нас"
                         },
@@ -191,7 +223,7 @@ namespace Appointment_calendar.Migrations
                         {
                             Id = new Guid("70bf165a-700a-4156-91c0-e83fce0a277f"),
                             CodeWord = "PageServices",
-                            DateAdded = new DateTime(2024, 5, 1, 18, 55, 42, 594, DateTimeKind.Utc).AddTicks(5344),
+                            DateAdded = new DateTime(2024, 5, 5, 17, 47, 16, 356, DateTimeKind.Utc).AddTicks(107),
                             Text = "Содержание заполняется администратором",
                             Title = "Предоставляемы услуги"
                         },
@@ -199,7 +231,7 @@ namespace Appointment_calendar.Migrations
                         {
                             Id = new Guid("8b74b23c-ec9b-4375-9c5e-acc3431c4f6b"),
                             CodeWord = "PageClientDataField",
-                            DateAdded = new DateTime(2024, 5, 1, 18, 55, 42, 594, DateTimeKind.Utc).AddTicks(5356),
+                            DateAdded = new DateTime(2024, 5, 5, 17, 47, 16, 356, DateTimeKind.Utc).AddTicks(125),
                             Text = "Содержание заполняется администратором",
                             Title = "Заявка на оказание услуги"
                         });
@@ -217,11 +249,10 @@ namespace Appointment_calendar.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime?>("DateOfBirth")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Description")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasMaxLength(8)
+                        .HasColumnType("nvarchar(8)");
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
@@ -259,9 +290,6 @@ namespace Appointment_calendar.Migrations
                     b.Property<bool>("PhoneNumberConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Place")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("SecurityStamp")
                         .HasColumnType("nvarchar(max)");
 
@@ -284,18 +312,22 @@ namespace Appointment_calendar.Migrations
 
                     b.ToTable("AspNetUsers", (string)null);
 
+                    b.HasDiscriminator<string>("Discriminator").HasValue("User");
+
+                    b.UseTphMappingStrategy();
+
                     b.HasData(
                         new
                         {
                             Id = "3b62472e-4f66-49fa-a20f-e7685b9565d8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "a9063a18-bb8a-4fca-b1f3-4110b66a8dcf",
+                            ConcurrencyStamp = "c3b2f7fb-ebd8-49f2-a0e8-4d5342f23ad7",
                             Email = "my@email.com",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "MY@EMAIL.COM",
                             NormalizedUserName = "ADMIN",
-                            PasswordHash = "AQAAAAIAAYagAAAAEOYzIeJauude4IM8yHvz47epLkPBDX/vraGJC3reAKJzCfVUZvm+Ls5LU06zOmpC+w==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEInbhVt6SRVHhF9Ak2tipjGay+dklNc2U86zW7IUMQkdYBO7Lm80lDNd+A8aO7DQjQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -305,13 +337,13 @@ namespace Appointment_calendar.Migrations
                         {
                             Id = "2dec81ab-0190-496b-954f-681b495b7d70",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "f1b5c46f-572c-459a-ac13-4e5af9e50c8c",
+                            ConcurrencyStamp = "4ede6cae-13a7-4c73-9aa0-52a298a38039",
                             Email = "Cheidfoureyes@yandex.ru",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "CHEIDFOUREYES@YANDEX.RU",
                             NormalizedUserName = "THERAPIST",
-                            PasswordHash = "AQAAAAIAAYagAAAAENQF8XFD6BcW1g8ajuChnYRUGUkg9OyC080HBmrrC3sa1XnddJsT6iQTDyNLE9sMaw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAECLwqeO9HeIJqf05+kNxTw4ONVouNDkJ5W2XmsXSKFyEpdrOGsrImFTrJRF/yT3qHA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -484,6 +516,37 @@ namespace Appointment_calendar.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("Appointment_calendar.Domain.Entities.Concreate.Patient", b =>
+                {
+                    b.HasBaseType("Appointment_calendar.Domain.Entities.Concreate.User");
+
+                    b.Property<DateTime?>("DateOfBirth")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MeetLink")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Place")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TelgramContact")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("Patient");
+                });
+
+            modelBuilder.Entity("Appointment_calendar.Domain.Entities.Concreate.AppEvent", b =>
+                {
+                    b.HasOne("Appointment_calendar.Domain.Entities.Concreate.Patient", "Patient")
+                        .WithMany("AppEvents")
+                        .HasForeignKey("PatientId");
+
+                    b.Navigation("Patient");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -533,6 +596,11 @@ namespace Appointment_calendar.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Appointment_calendar.Domain.Entities.Concreate.Patient", b =>
+                {
+                    b.Navigation("AppEvents");
                 });
 #pragma warning restore 612, 618
         }
