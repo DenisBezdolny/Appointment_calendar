@@ -31,8 +31,8 @@ builder.Configuration.Bind("Project", new BasicInformation());
 builder.Services.AddTransient<ITextFieldsService, EFTextFieldsService>();
 builder.Services.AddTransient<IServiceItemService, EFServiceItemsService>();
 builder.Services.AddTransient<IClientDataFieldsService, EFClientDataFieldsService>();
-builder.Services.AddTransient<IUserService, EFUserService>();
-builder.Services.AddTransient<IEventService, EFEventService>();
+builder.Services.AddTransient<IPatientService, EFPatientService>();
+builder.Services.AddTransient<IAppEventService, EFAppEventService>();
 
 builder.Services.AddTransient<ServiceManager>();
 
