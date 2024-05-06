@@ -9,9 +9,9 @@ public class HomeController : Controller
 {
     private readonly ServiceManager serviceManager;
 
-    public HomeController(ServiceManager dataManager)
+    public HomeController(ServiceManager serviceManager)
     {
-        this.serviceManager = dataManager;
+        this.serviceManager = serviceManager;
     }
 
     public IActionResult Index()
@@ -27,5 +27,15 @@ public class HomeController : Controller
     public IActionResult AboutUs()
     {
         return View(serviceManager.TextFields.GetTextFieldByCodeWord("PageAboutUs"));
+    }
+    public IActionResult Services(Guid id)
+    {
+        if (id != default)
+        {
+            return View("ShowService", serviceManager.ServiceItems.GetServiceItemById(id));
+        }
+
+        ViewBag.TextField = serviceManager.TextFields.GetTextFieldByCodeWord("PageServices");
+        return View(serviceManager.ServiceItems.GetServiceItems());
     }
 }
