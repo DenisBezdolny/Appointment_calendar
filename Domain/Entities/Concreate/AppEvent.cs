@@ -1,29 +1,29 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Appointment_calendar.Domain.Entities.Concreate
 {
     public class AppEvent
     {
+
         [Key]
-        [Required]
-        public string Id { get; set; }
+        public string Id { get; set; } = Guid.NewGuid().ToString();
 
         [Required]
         [DataType(DataType.Date)]
         public DateTime Date { get; set; }
 
         [Required]
-        public string Start { get; set; }
+        [DataType(DataType.Time)]
+        public DateTime Start { get; set; }
 
         [Required]
-        public string End { get; set; }
+        [DataType(DataType.Time)]
+        public DateTime End { get; set; }
 
-        [Required]
-        public User? User { get; set; }
+        public Patient? Patient { get; set; }
 
         [Required]
         public string? Description { get; set; }
-
-
     }
 }
