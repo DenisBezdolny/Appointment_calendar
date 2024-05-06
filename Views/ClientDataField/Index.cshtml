@@ -32,12 +32,18 @@
                 <span asp-validation-for="TelgramContact"></span>
             </div>
             <div class="col-md5">
-
                 <label asp-for="Service"></label>
                 <input asp-for="Service" class="form-control" />
                 <span asp-validation-for="Service"></span>
             </div>
-
+            <div class="col-md5">
+                <label asp-for="DescriptionOfProblem"></label>
+                <textarea asp-for="DescriptionOfProblem" class="form-control"></textarea>
+                <span asp-validation-for="DescriptionOfProblem"></span>
+            </div>
+            <div class="col-md5">
+                * поля, обязательные для заполнения
+            </div>
             <p></p>
             <input type="submit" value="Отправить" />
         </form>
