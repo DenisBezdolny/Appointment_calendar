@@ -1,0 +1,46 @@
+﻿@model IQueryable<AppEvent>
+
+<div>
+    <h3>Open calendar</h3>
+    <iframe src="https://calendar.google.com/calendar/embed?src=c8aaea13ba64a77219c97155c6d7c53c8aefc7c878122555f57d42a16fdf1578%40group.calendar.google.com&ctz=Europe%2FMinsk" style="border: 0" width="800" height="600" frameborder="0" scrolling="no"></iframe>
+</div>
+
+
+<h3>Upcoming events</h3>
+<hr />
+
+<div>
+    <a asp-area="Therapist" asp-action="CreateEvent" asp-controller="Event">Создать сессию</a>
+</div>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Event title</th>
+            <th>Event Start</th>
+            <th>Event End</th>
+            <th>Event Description</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            @if (@item.End > DateTime.Now)
+            {
+                <tr>
+                    <th>Event title</th>
+                    <th>@item.Start</th>
+                    <th>@item.End</th>
+                    <th>@item.Description</th>
+                </tr>
+            
+            }
+            
+        }
+        
+    </tbody>
+</table>
+
+
