@@ -1,4 +1,4 @@
-﻿@model User
+﻿@model Patient
 
 @{
     string strTitle = "Добавление пациента";
@@ -6,7 +6,7 @@
 }
 
 
-<form asp-area="Therapist" asp-controller="User" asp-action="Create" method="post" enctype="multipart/form-data">
+<form asp-area="Therapist" asp-controller="Patient" asp-action="Create" method="post" enctype="multipart/form-data">
 
 
     <div asp-validation-summary="All"></div>
@@ -27,6 +27,16 @@
         <input asp-for="PhoneNumber" />
         <span asp-validation-for="PhoneNumber"></span>
     </div>
+    <div class="div-box">
+        <label asp-for="Email"></label>
+        <input asp-for="Email" />
+        <span asp-validation-for="Email"></span>
+    </div>
+    <div class="div-box">
+        <label asp-for="TelgramContact"></label>
+        <input asp-for="TelgramContact" />
+        <span asp-validation-for="TelgramContact"></span>
+    </div>
     <div asp-validation-summary="All"></div>
     <div class="div-box">
         <label asp-for="DateOfBirth"></label>
@@ -39,10 +49,15 @@
         <input asp-for="Place" />
         <span asp-validation-for="Place"></span>
     </div>
+    <div class="div-box">
+        <label asp-for="MeetLink"></label>
+        <input asp-for="MeetLink" />
+        <span asp-validation-for="MeetLink"></span>
+    </div>
     <div asp-validation-summary="All"></div>
     <div class="div-box">
         <label asp-for="Description"></label>
-        <input asp-for="Description" />
+        <textarea asp-for="Description"> </textarea> 
         <span asp-validation-for="Description"></span>
     </div>
 

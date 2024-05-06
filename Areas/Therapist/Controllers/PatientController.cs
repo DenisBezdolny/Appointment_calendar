@@ -7,11 +7,11 @@ namespace Appointment_calendar.Areas.Therapist.Controllers
 {
 
     [Area("Therapist")]
-    public class UserController : Controller
+    public class PatientController : Controller
     {
         private readonly ServiceManager serviceManager;
 
-        public UserController(ServiceManager serviceManager)
+        public PatientController(ServiceManager serviceManager)
         {
             this.serviceManager = serviceManager;
         }
@@ -19,7 +19,7 @@ namespace Appointment_calendar.Areas.Therapist.Controllers
         [HttpGet]
         public IActionResult Index()
         {
-            return View(serviceManager.UserServices.GetUsers());
+            return View(serviceManager.Patients.GetPatients());
         }
 
         public IActionResult Create()
@@ -27,27 +27,34 @@ namespace Appointment_calendar.Areas.Therapist.Controllers
             return View();
         }
 
-
-
         [HttpPost]
-        public IActionResult Create(User user)
+        public IActionResult Create(Patient patient)
         {
             if (ModelState.IsValid)
             {
-                serviceManager.UserServices.CreateUser(user);
+                serviceManager.Patients.CreatePatient(patient);
                 return RedirectToAction("Index");
             }
+            return View(patient);
+        }
 
-            return View(user);
+        [HttpPost]
+        public IActionResult GetPatiantById(string id)
+        {
+            if (ModelState.IsValid)
+            {
+                return View(serviceManager.Patients.GetPatientById(id));
+            }
+            return View("Index");
         }
 
 
         [HttpPost]
-        public IActionResult Update(User user)
+        public IActionResult Update(Patient patient)
         {
             if (ModelState.IsValid)
             {
-                serviceManager.UserServices.UpdateUser(user);
+                serviceManager.Patients.UpdatePatient(patient);
             }
             return View("Index");
         }
@@ -57,7 +64,7 @@ namespace Appointment_calendar.Areas.Therapist.Controllers
         {
             if (ModelState.IsValid)
             {
-                serviceManager.UserServices.DeleteUser(id);
+                serviceManager.Patients.DeletePatient(id);
                 return RedirectToAction("Index");
             }
 

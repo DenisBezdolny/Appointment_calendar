@@ -1,0 +1,48 @@
+﻿@model Patient
+
+<a class="button" asp-area="Therapist" asp-controller="Patient" asp-action="Index">Назад</a>
+
+<div class="div-box">
+    <h3>
+        @Model.FirstName
+    </h3>
+    <h3>
+        @Model.LastName
+    </h3>
+</div>
+<div class="div-box">
+    <h3>
+        @Model.DateOfBirth
+    </h3>
+</div>
+<div class="div-box">
+    <h3>
+        @Model.PhoneNumber
+    </h3>
+</div>
+<div class="div-box">
+    <h3>
+        @Model.Email
+    </h3>
+    <h3>
+        @Model.TelgramContact
+    </h3>
+</div>
+<div class="div-box">
+    <h3>
+        @Model.MeetLink
+    </h3>
+</div>
+<div class="div-box">
+    <h3>
+        @Model.Description
+    </h3>
+
+</div>
+
+
+
+<form style="display: inline-block;" id="form-@Model.Id" asp-area="Therapist" asp-controller="Patient" asp-action="Delete" method="post">
+    <input type="hidden" name="id" value="@Model.Id">
+    <button type="submit">Удалить</button>
+</form>

@@ -1,0 +1,36 @@
+﻿@model IQueryable<Patient>
+
+<div>
+    <a asp-area="Therapist" asp-action="Create" asp-controller="Patient">Создать пациента</a>
+</div>
+
+
+
+<table>
+    <thead>
+        <tr>
+            <th>Имя</th>
+            <th>Фамилия</th>
+            <th>Электронная почта</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (Patient entity in Model)
+        {
+            <tr>
+                <td>@entity.FirstName</td>
+                <td>@entity.LastName</td>
+                <td>@entity.Email</td>
+
+                <td>
+                    <form style="display: inline-block;" id="form-@entity.Id" asp-area="Therapist" asp-controller="Patient" asp-action="GetPatientById" method="post">
+                        <input type="hidden" name="id" value="@entity.Id">
+                        <button type="submit">Просмотреть</button>
+                    </form>
+                </td>
+
+
+            </tr>
+        }
+    </tbody>
+</table>
