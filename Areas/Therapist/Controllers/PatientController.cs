@@ -39,7 +39,7 @@ namespace Appointment_calendar.Areas.Therapist.Controllers
         }
 
         [HttpPost]
-        public IActionResult GetPatiantById(string id)
+        public IActionResult GetPatientById(string id)
         {
             if (ModelState.IsValid)
             {
